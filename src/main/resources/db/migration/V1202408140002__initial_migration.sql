@@ -33,9 +33,18 @@ CREATE TABLE room_pricing (
     FOREIGN KEY (room_id) REFERENCES rooms(room_id)
 );
 
+CREATE TABLE orders (
+    order_id UUID PRIMARY KEY, -- Unique identifier for the order
+    user_id UUID,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 CREATE TABLE bookings (
     booking_id UUID PRIMARY KEY,
-    user_id UUID,
+    order_id UUID,
     room_id INT,
     check_in_date TIMESTAMPTZ NOT NULL,
     check_out_date TIMESTAMPTZ NOT NULL,
@@ -43,18 +52,8 @@ CREATE TABLE bookings (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
     FOREIGN KEY (room_id) REFERENCES rooms(room_id)
-);
-
-CREATE TABLE orders (
-    order_id UUID PRIMARY KEY, -- Unique identifier for the order
-    booking_id UUID NOT NULL, -- Reference to the booking associated with this order
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id), -- Foreign key to Bookings table
-    UNIQUE (order_id, booking_id) -- Ensure that each booking_id is unique per order_id
 );
 
 CREATE TABLE payments (

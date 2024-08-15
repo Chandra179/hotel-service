@@ -11,11 +11,11 @@ CREATE INDEX idx_room_pricing_room_id ON room_pricing(room_id);
 CREATE INDEX idx_room_pricing_start_date ON room_pricing(start_date);
 
 -- Indexes for bookings table
-CREATE INDEX idx_bookings_user_id ON bookings(user_id);
+CREATE INDEX idx_bookings_order_id ON orders(order_id);
 CREATE INDEX idx_bookings_booking_status ON bookings(booking_status);
 
 -- Indexes for orders table
-CREATE INDEX idx_orders_booking_id ON orders(booking_id);
+CREATE INDEX idx_orders_user_id ON orders(user_id);
 
 -- Index for payments table
 CREATE INDEX idx_payments_order_id ON payments(order_id);
