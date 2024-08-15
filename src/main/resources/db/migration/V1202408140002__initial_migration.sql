@@ -30,7 +30,7 @@ CREATE TABLE room_pricing (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (room_id) REFERENCES Rooms(room_id)
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
 );
 
 CREATE TABLE bookings (
@@ -43,18 +43,32 @@ CREATE TABLE bookings (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (user_id) REFERENCES Users(user_id),
-    FOREIGN KEY (room_id) REFERENCES Rooms(room_id)
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
 );
 
 CREATE TABLE orders (
     order_id UUID PRIMARY KEY, -- Unique identifier for the order
     booking_id UUID NOT NULL, -- Reference to the booking associated with this order
-    total_amount DECIMAL(10, 2) NOT NULL, -- Total amount for the order
-    currency CHAR(3) DEFAULT 'USD', -- ISO 4217 currency code
-    payment_status payment_status,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (booking_id) REFERENCES Bookings(booking_id) -- Foreign key to Bookings table
+    FOREIGN KEY (booking_id) REFERENCES bookings(booking_id), -- Foreign key to Bookings table
+    UNIQUE (order_id, booking_id) -- Ensure that each booking_id is unique per order_id
+);
+
+CREATE TABLE payments (
+    payment_id UUID PRIMARY KEY, -- Unique identifier for the payment
+    order_id UUID NOT NULL, -- Reference to the order associated with this payment
+    payment_reference_id VARCHAR(255) UNIQUE, -- Reference ID from the payment gateway
+    payment_status payment_status, -- Status of the payment (Pending, Completed, etc.)
+    payment_date TIMESTAMPTZ, -- Date and time of the payment transaction
+    payment_method payment_method, -- Payment method used
+    payment_gateway VARCHAR(100), -- Payment gateway provider
+    amount_paid DECIMAL(10, 2) NOT NULL, -- Amount paid in this transaction
+    currency CHAR(3) DEFAULT 'USD', -- ISO 4217 currency code
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
+    FOREIGN KEY (order_id) REFERENCES orders(order_id) -- Foreign key to Orders table
 );

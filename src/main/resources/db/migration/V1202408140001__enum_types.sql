@@ -9,3 +9,6 @@ CREATE TYPE booking_status AS ENUM ('CONFIRMED', 'CANCELLED', 'CHECKED_IN', 'CHE
 
 -- Enum for Payment Status
 CREATE TYPE payment_status AS ENUM ('PENDING', 'COMPLETED', 'FAILED');
+
+-- Enum for Payment Method
+CREATE TYPE payment_method AS ENUM ('CREDIT_CARD', 'DEBIT_CARD');
