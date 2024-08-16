@@ -3,7 +3,12 @@ package com.hospitality.hotel_service.model;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-public class RoomPricingsModel extends AuditModel{
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class RoomPricingModel extends AuditModel{
     private int pricingId;
     private int roomId;
     private BigDecimal pricePerNight;

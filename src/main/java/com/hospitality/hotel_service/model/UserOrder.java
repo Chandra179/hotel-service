@@ -7,10 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class UsersModel extends AuditModel {
+public class UserOrder extends AuditModel{
+    private UUID orderId;
     private UUID userId;
-    private String email;
-    private String fullName;
-    private String oauthProvider;
-    private String oauthUid;
 }

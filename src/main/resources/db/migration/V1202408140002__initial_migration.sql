@@ -1,4 +1,4 @@
-CREATE TABLE users (
+CREATE TABLE user_account (
     user_id UUID PRIMARY KEY,
     email VARCHAR(255) UNIQUE NOT NULL,
     full_name VARCHAR(255) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE users (
     deleted_at TIMESTAMPTZ NULL -- Soft delete column with timezone
 );
 
-CREATE TABLE rooms (
+CREATE TABLE room (
     room_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     room_number VARCHAR(50) NOT NULL,
     room_type VARCHAR(50) NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE rooms (
     deleted_at TIMESTAMPTZ NULL -- Soft delete column with timezone
 );
 
-CREATE TABLE room_pricings (
+CREATE TABLE room_pricing (
     pricing_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     room_id INT,
     price_per_night DECIMAL(10, 2) NOT NULL,
@@ -29,19 +29,19 @@ CREATE TABLE room_pricings (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+    FOREIGN KEY (room_id) REFERENCES room(room_id)
 );
 
-CREATE TABLE orders (
+CREATE TABLE user_order (
     order_id UUID PRIMARY KEY, -- Unique identifier for the order
     user_id UUID,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (user_id) REFERENCES users(user_id)
+    FOREIGN KEY (user_id) REFERENCES user_account(user_id)
 );
 
-CREATE TABLE bookings (
+CREATE TABLE room_booking (
     booking_id UUID PRIMARY KEY,
     order_id UUID,
     room_id INT,
@@ -51,11 +51,11 @@ CREATE TABLE bookings (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (order_id) REFERENCES orders(order_id),
-    FOREIGN KEY (room_id) REFERENCES rooms(room_id)
+    FOREIGN KEY (order_id) REFERENCES user_order(order_id),
+    FOREIGN KEY (room_id) REFERENCES room(room_id)
 );
 
-CREATE TABLE payments (
+CREATE TABLE payment (
     payment_id UUID PRIMARY KEY, -- Unique identifier for the payment
     order_id UUID NOT NULL, -- Reference to the order associated with this payment
     payment_reference_id VARCHAR(255) UNIQUE, -- Reference ID from the payment gateway
@@ -68,5 +68,5 @@ CREATE TABLE payments (
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     deleted_at TIMESTAMPTZ NULL, -- Soft delete column with timezone
-    FOREIGN KEY (order_id) REFERENCES orders(order_id) -- Foreign key to Orders table
+    FOREIGN KEY (order_id) REFERENCES user_order(order_id) -- Foreign key to Orders table
 );

@@ -3,7 +3,12 @@ package com.hospitality.hotel_service.model;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-class BookingsModel extends AuditModel{
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+class BookingModel extends AuditModel{
     private UUID bookingId;
     private UUID orderId;
     private int roomId;

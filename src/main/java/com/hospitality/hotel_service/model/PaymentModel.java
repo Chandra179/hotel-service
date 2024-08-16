@@ -4,7 +4,12 @@ import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-public class PaymentsModel {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@AllArgsConstructor
+@Getter
+public class PaymentModel {
     private UUID paymentId;
     private UUID orderId;
     private String paymentReferenceId;
