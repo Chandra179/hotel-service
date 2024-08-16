@@ -7,8 +7,8 @@ CREATE INDEX idx_rooms_room_type ON rooms(room_type);
 CREATE INDEX idx_rooms_availability_status ON rooms(availability_status);
 
 -- Indexes for room_pricing table
-CREATE INDEX idx_room_pricing_room_id ON room_pricing(room_id);
-CREATE INDEX idx_room_pricing_start_date ON room_pricing(start_date);
+CREATE INDEX idx_room_pricing_room_id ON room_pricings(room_id);
+CREATE INDEX idx_room_pricing_start_date ON room_pricings(available_date);
 
 -- Indexes for bookings table
 CREATE INDEX idx_bookings_order_id ON orders(order_id);

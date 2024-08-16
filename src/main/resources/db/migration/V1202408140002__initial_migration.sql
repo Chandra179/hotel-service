@@ -20,12 +20,11 @@ CREATE TABLE rooms (
     deleted_at TIMESTAMPTZ NULL -- Soft delete column with timezone
 );
 
-CREATE TABLE room_pricing (
+CREATE TABLE room_pricings (
     pricing_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     room_id INT,
     price_per_night DECIMAL(10, 2) NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE, -- NULL if the price is currently valid with no specific end date
+    available_date TIMESTAMPTZ NOT NULL,
     pricing_type pricing_type, -- Reference to enum type
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,

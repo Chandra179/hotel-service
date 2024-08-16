@@ -1,6 +1,7 @@
 # Run the Spring Boot application
 .PHONY: run
 run:
+	docker compose up -d
 	./gradlew bootRun
 
 # Clean the project
@@ -17,17 +18,6 @@ build:
 .PHONY: test
 test:
 	./gradlew test
-
-# Rebuild Docker images without cache
-.PHONY: docker/rebuild
-docker/rebuild:
-	docker-compose -f docker-compose.yml build --no-cache --parallel
-	docker-compose -f docker-compose.yml up -d
-
-# Start Docker containers
-.PHONY: docker/up
-docker/up:
-	docker-compose -f docker-compose.yml up -d
 
 # Stop Docker containers
 .PHONY: docker/down
