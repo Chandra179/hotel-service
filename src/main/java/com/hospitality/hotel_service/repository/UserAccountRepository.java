@@ -1,22 +1,24 @@
 package com.hospitality.hotel_service.repository;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.hospitality.hotel_service.dto.UserAccountDTO;
 
 @Repository
 public class UserAccountRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public User getUserById(Long id) {
-        String sql = "SELECT * FROM users WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
-            User user = new User();
-            user.setId(rs.getLong("id"));
-            user.setUsername(rs.getString("username"));
-            user.setPassword(rs.getString("password"));
+    public UserAccountDTO getUserById(UUID userAccountID) {
+        String sql = "SELECT * FROM user_account WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+            UserAccountDTO user = new UserAccountDTO();
             return user;
-        });
+        }, 
+        new Object[]{userAccountID});
     }
 }

@@ -5,3 +5,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/hotel_service
     username: root
     password: root
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
