@@ -17,6 +17,7 @@ public class UserAccountRepository {
         String sql = "SELECT * FROM user_account WHERE user_id = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             UserAccountDTO user = new UserAccountDTO();
+            user.setUserEmail(rs.getString("email"));
             return user;
         }, 
         new Object[]{userAccountID});

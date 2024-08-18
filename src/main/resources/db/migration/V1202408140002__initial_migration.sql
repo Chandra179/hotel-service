@@ -12,7 +12,7 @@ CREATE TABLE user_account (
 CREATE TABLE room (
     room_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     room_number VARCHAR(50) NOT NULL,
-    room_type VARCHAR(50) NOT NULL,
+    room_type VARCHAR(30) NOT NULL,
     description TEXT,
     availability_status room_availability_status DEFAULT 'AVAILABLE',
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
